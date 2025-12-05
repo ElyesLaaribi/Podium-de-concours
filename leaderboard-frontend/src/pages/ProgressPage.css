@@ -1,0 +1,76 @@
+.progress-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.progress-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.5rem;
+}
+
+.progress-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.progress-item:last-child {
+  border-bottom: none;
+}
+
+.progress-info {
+  flex: 1;
+  color: #333; /* Darker grey for better contrast */
+}
+
+.progress-info strong {
+  color: #212529; /* Darker grey for better contrast */
+}
+
+.progress-percentage {
+  font-weight: bold;
+  color: #0056b3; /* Darker blue for better contrast */
+  margin-left: 0.5rem;
+}
+
+.progress-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Reuse filter styles from ScoresPage if desired, or define specific ones */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+}
+
+.filters .form-group {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 0;
+}
+
+.filter-select,
+.filter-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: white;
+}
+
+.filters label {
+  color: #333; /* Darker grey for better contrast */
+}

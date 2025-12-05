@@ -1,0 +1,577 @@
+{
+	"info": {
+		"_postman_id": "leaderboard-api-collection",
+		"name": "Leaderboard API",
+		"description": "Collection complète pour tester l'API Leaderboard",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "List All Teams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/teams",
+							"host": ["{{base_url}}"],
+							"path": ["api", "teams"]
+						}
+					}
+				},
+				{
+					"name": "Create Team",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Nouvelle Équipe\",\n  \"code\": \"TEAM999\",\n  \"description\": \"Description de l'équipe\",\n  \"color\": \"#FF5733\",\n  \"logo_url\": \"https://example.com/logo.png\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/teams",
+							"host": ["{{base_url}}"],
+							"path": ["api", "teams"]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Team created successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data).to.have.property('id');",
+									"    ",
+									"    // Sauvegarder l'ID pour les prochaines requêtes",
+									"    pm.environment.set(\"team_id\", jsonData.data.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Get Team Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/teams/{{team_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "teams", "{{team_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Team",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Équipe Modifiée\",\n  \"color\": \"#00FF00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/teams/{{team_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "teams", "{{team_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Team",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/teams/{{team_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "teams", "{{team_id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Leaderboard",
+			"item": [
+				{
+					"name": "Get Full Leaderboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/leaderboard?limit=10&offset=0",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaderboard"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Top Teams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/leaderboard/top?limit=5",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaderboard", "top"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has data\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Get Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/leaderboard/stats",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaderboard", "stats"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Scores",
+			"item": [
+				{
+					"name": "List All Scores",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/scores",
+							"host": ["{{base_url}}"],
+							"path": ["api", "scores"]
+						}
+					}
+				},
+				{
+					"name": "List Scores by Team",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/scores?team_id={{team_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "scores"],
+							"query": [
+								{
+									"key": "team_id",
+									"value": "{{team_id}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Score",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"team_id\": 1,\n  \"points\": 50,\n  \"challenge_name\": \"Défi Technique\",\n  \"description\": \"Score obtenu pour avoir complété le défi\",\n  \"metadata\": {\n    \"difficulty\": \"hard\",\n    \"time_taken\": 45\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/scores",
+							"host": ["{{base_url}}"],
+							"path": ["api", "scores"]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Score created\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.environment.set(\"score_id\", jsonData.data.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Add Points (Simplified)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"team_id\": {{team_id}},\n  \"points\": 25,\n  \"challenge_name\": \"Défi Bonus\",\n  \"description\": \"Points bonus pour participation\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/scores/add-points",
+							"host": ["{{base_url}}"],
+							"path": ["api", "scores", "add-points"]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Points added successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});",
+									"",
+									"// Vérifier que le classement a été mis à jour",
+									"setTimeout(function() {",
+									"    pm.sendRequest({",
+									"        url: pm.environment.get('base_url') + '/api/leaderboard/top?limit=5',",
+									"        method: 'GET',",
+									"        header: { 'Accept': 'application/json' }",
+									"    }, function(err, res) {",
+									"        pm.test('Leaderboard updated', function() {",
+									"            pm.expect(res.json().success).to.be.true;",
+									"        });",
+									"    });",
+									"}, 1000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Get Score Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/scores/{{score_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "scores", "{{score_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Score",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"points\": 75,\n  \"description\": \"Score modifié\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/scores/{{score_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "scores", "{{score_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Score",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/scores/{{score_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "scores", "{{score_id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Progress",
+			"item": [
+				{
+					"name": "List All Progress",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/progress",
+							"host": ["{{base_url}}"],
+							"path": ["api", "progress"]
+						}
+					}
+				},
+				{
+					"name": "List Progress by Team",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/progress?team_id={{team_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "progress"],
+							"query": [
+								{
+									"key": "team_id",
+									"value": "{{team_id}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Progress",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"team_id\": {{team_id}},\n  \"milestone\": \"Étape 1 - Initialisation\",\n  \"percentage\": 50,\n  \"notes\": \"Progression à mi-parcours du défi\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/progress",
+							"host": ["{{base_url}}"],
+							"path": ["api", "progress"]
+						}
+					}
+				},
+				{
+					"name": "Get Progress Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/progress/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "progress", "1"]
+						}
+					}
+				},
+				{
+					"name": "Update Progress",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"percentage\": 100,\n  \"notes\": \"Défi complété !\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/progress/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "progress", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Progress",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/progress/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "progress", "1"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "team_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "score_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
+
+

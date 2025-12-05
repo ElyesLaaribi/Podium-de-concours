@@ -1,0 +1,75 @@
+.scores-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+}
+
+.filters .form-group {
+  flex: 1;
+  min-width: 200px; /* Ensure filters don't get too cramped */
+  margin-bottom: 0; /* Override default form-group margin */
+}
+
+.filter-select,
+.filter-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: white;
+}
+
+.score-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.5rem;
+}
+
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.score-item:last-child {
+  border-bottom: none;
+}
+
+.score-info {
+  flex: 1;
+  color: #333; /* Darker grey for better contrast */
+}
+
+.score-info strong {
+  color: #212529; /* Darker grey for better contrast */
+}
+
+.score-points {
+  font-weight: bold;
+  color: #1e7e34; /* Darker green for better contrast */
+  margin-left: 0.5rem;
+}
+
+.score-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filters label {
+  color: #333; /* Darker grey for better contrast */
+}
